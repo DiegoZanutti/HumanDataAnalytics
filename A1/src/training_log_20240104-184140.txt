@@ -1,0 +1,47 @@
+2024-01-04 19:05:46,298 Training Log
+Date and Time: 2024-01-04 19:05:46.298386
+Running the training process 1 times
+
+Seed for this run is: 42, 12345, 1234
+
+Training epoch: 10, learning rate: 0.001, batch_size = 32, model is: simple_CNN with new way of segmenting data
+
+2024-01-04 19:07:33,122 Run 1: 
+Accuracy = 0.6577518582344055
+Precision = 0.8461930567315045
+Recall = 0.6577518327450448
+F1 = 0.6871510427348994
+Loss = 0.8085030913352966
+
+2024-01-04 19:16:34,810 Training Log
+Date and Time: 2024-01-04 19:16:34.810667
+Running the training process 1 times
+
+Seed for this run is: 42, 12345, 1234
+
+Training epoch: 10, learning rate: 0.001, batch_size = 32, model is: LSTM_CNN with new way of segmenting data
+
+2024-01-04 19:20:32,617 Training Log
+Date and Time: 2024-01-04 19:20:32.617162
+Running the training process 1 times
+
+Seed for this run is: 42, 12345, 1234
+
+Training epoch: 20, learning rate: 5e-05, batch_size = 16, model is: DZ04012024_CNN with new way of segmenting data
+
+2024-01-04 19:22:04,549 Training Log
+Date and Time: 2024-01-04 19:22:04.548785
+Running the training process 1 times
+
+Seed for this run is: 42, 12345, 1234
+
+Training epoch: 20, learning rate: 5e-05, batch_size = 16, model is: DZ04012024_CNN with new way of segmenting data
+
+2024-01-04 19:23:23,928 Training Log
+Date and Time: 2024-01-04 19:23:23.928795
+Running the training process 1 times
+
+Seed for this run is: 42, 12345, 1234
+
+Training epoch: 20, learning rate: 5e-05, batch_size = 16, model is: DZ04012024_CNN with new way of segmenting data
+

@@ -1,0 +1,15 @@
+2024-01-08 16:37:57,985 Training Log
+Date and Time: 2024-01-08 16:37:57.985560
+Running the training process 1 times
+
+Seed for this run is: 42, 12345, 1234
+
+Training epoch: 10, learning rate: 5e-05, batch_size = 16, model is: DZ_CNN with new way of segmenting data
+
+2024-01-08 16:44:43,245 Run 1: 
+Accuracy = 0.9079554677009583
+Precision = 0.9091811278480817
+Recall = 0.907955471083356
+F1 = 0.9079068591625714
+Loss = 0.4904245138168335
+

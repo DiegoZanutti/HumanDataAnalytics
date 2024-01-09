@@ -1,0 +1,8 @@
+2024-01-09 09:59:39,395 Training Log
+Date and Time: 2024-01-09 09:59:39.394878
+Running the training process 1 times
+
+Seed for this run is: 42, 12345, 1234
+
+Training epoch: 20, learning rate: 5e-05, batch_size = 16, model is: DZ_CNN with new way of segmenting data
+
