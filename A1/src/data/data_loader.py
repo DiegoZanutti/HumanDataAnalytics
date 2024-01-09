@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import numpy as np
 import subprocess
+
 from math import floor
 from sklearn.model_selection import train_test_split
 from data.data_processor import VectorMagnitude
@@ -24,7 +25,7 @@ class DataLoader:
             subprocess.run(download_command, shell=True, check=True)
             subprocess.run(unzip_command, shell=True, check=True)
             print("`Download and extraction of dataset complete!")
-
+            
     def read_files(self):
         if self.folder_path is None:
             print("Error: Folder path is not set. Please run download_data first.")
@@ -45,9 +46,9 @@ class DataLoader:
 
                 df = pd.read_csv(file_path) 
                 # add 3 columns for magnitudes 
-                df_transformed = VM(df)
+                # df_transformed = VM(df)
                 # print("df_transformed:",df_transformed.columns)
-                df = df_transformed.copy()
+                # df = df_transformed.copy()
                 # remove the rows with activity label 99 or 77 or 4
                 df = df[(df['activity'] != 99) & (df['activity'] != 77) & (df['activity'] != 4)]
                 # print("剩下的活动类型有：",df['activity'].unique())

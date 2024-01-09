@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from data.data_processor import VectorMagnitude, Standardize, ButterLowPassFilter
+from data.data_processor import VectorMagnitude, Standardize
 class DataSegmentation:
     """
     Class for segmenting data based on window size and overlap.
@@ -38,6 +38,9 @@ class DataSegmentation:
         label_segments = []
         start_index = 0
         standardizer = Standardize()
+        max_len = len(data)
+        print("all data:",max_len)
+        
         while start_index + window_size_samples <= len(data):
             data_segment = data[start_index:start_index + window_size_samples]
             label_segments.append(data_segment[0, 0]) # first column is label
@@ -51,10 +54,7 @@ class DataSegmentation:
         print("Data Segments:",len(data_segments))
         segmented_data = np.array(data_segments)
         segmented_labels = np.array(label_segments).reshape(-1, 1)
-    
-        # print("Data Segments:", len(data_segments))
-        # print("Segmented Data x:", segmented_data.shape)
-        # print("Segmented Data y:", segmented_labels.shape)
+
         return segmented_data, segmented_labels
     
     def one_hot(y_, label_mapping):
