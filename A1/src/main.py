@@ -89,6 +89,29 @@ def preprocess_method_2():
     return X_train, y_train,X_test,y_test
 
 
+def calculate_magnitude(data):
+
+    num_accelerometers = 4
+    features_per_accelerometer = 3
+
+    # Reshape the data to separate X, Y, Z for each accelerometer
+    reshaped_magnitude = data.reshape(data.shape[0], data.shape[1], num_accelerometers, features_per_accelerometer)
+
+    # Calculate the magnitude for each accelerometer
+    magnitude = np.sqrt(np.sum(reshaped_magnitude**2, axis=-1))
+
+    displacement_vector = np.diff(data, axis=1)
+
+    # Pad the displacement vector with one sample of value 0 along axis 1
+    displacement_vector_padded = np.concatenate([np.zeros((displacement_vector.shape[0], 1, displacement_vector.shape[2])), displacement_vector], axis=1)
+
+    reshaped_displacement = displacement_vector_padded.reshape(data.shape[0], data.shape[1], num_accelerometers, features_per_accelerometer)
+	
+    # Calculate the magnitude of the displacement vector
+    displacement_magnitude = np.sqrt(np.sum(reshaped_displacement**2, axis=-1))
+
+    return magnitude, displacement_magnitude
+
 
 def main():
     LABELS = [
@@ -96,9 +119,9 @@ def main():
         "Descending Stairs",
         "Ascending Stairs"
     ]
-    epochs = 10
-    batch_size = 32
-    learning_rate = 0.001
+    epochs = 20
+    batch_size = 16
+    learning_rate = 0.00005
     num_runs = 1
     current_time = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
     filename = f"training_log_{current_time}.txt"
@@ -113,8 +136,13 @@ def main():
     else:
         X_train,y_train,X_test,y_test = preprocess_method_2()
 
+    magnitude_result_train, displacement_result_train = calculate_magnitude(train_data_X)
+    train_data_X_full = np.concatenate([train_data_X, magnitude_result_train, displacement_result_train],axis=-1)
+    
+    magnitude_result_test, displacement_result_test = calculate_magnitude(test_data_X)
+    test_data_X_full = np.concatenate([test_data_X, magnitude_result_test, displacement_result_test],axis=-1)
 
-    models = ["LSTM_CNN", "Dual_LSTM", "DeepConvLSTM3","simple_CNN"]
+    models = ["DZ_CNN"] #"LSTM_CNN", "Dual_LSTM", "DeepConvLSTM3",
     for model_name in models:
         with open(filename, "w") as file:
             logger.info(
@@ -130,7 +158,7 @@ def main():
                 reset_seeds() 
                 # tf.compat.v1.disable_eager_execution()  # Or enable, depending on your requirement
                 # loss,accuracy,precision,recall,f1= train_model(model_name,X_train,y_train,X_test,y_test) #first method
-                loss,accuracy,precision,recall,f1= train_model(model_name,train_data_X,train_data_y_1d_mapped,test_data_X,test_data_y_1d_mapped)
+                loss,accuracy,precision,recall,f1= train_model(model_name,train_data_X_full[:,:,12:],train_data_y_1d_mapped,test_data_X_full[:,:,12:],test_data_y_1d_mapped,batch_size, epochs)
                 # loss,accuracy,precision,recall,f1= train_model(model_name,X_train,y_train,X_test,y_test) #second method
                 logger.info(f"Run {i+1}: \n"
                             f"Accuracy = {accuracy}\n"
@@ -139,6 +167,7 @@ def main():
                             f"F1 = {f1}\n"
                             f"Loss = {loss}\n")
                 tf.keras.backend.clear_session()
+
 
 if __name__ == "__main__":
     main()

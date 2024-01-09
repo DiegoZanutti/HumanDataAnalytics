@@ -3,9 +3,11 @@ from models.LSTM_CNN import LSTM_CNN
 from models.DeepConvLSTM import deep_conv_lstm_model
 from models.DeepConvLSTM2 import deep_conv_lstm_model_2
 from models.DeepConvLSTM3 import deep_conv_lstm_model_3
-from models.DeepConvLSTM4 import deep_conv_lstm_model_4
+from models.DZ08012024_CNN import DZ_CNN1
+#from models.DeepConvLSTM4 import deep_conv_lstm_model_4
 from models.simple_CNN import simple_CNN
 from sklearn.metrics import ConfusionMatrixDisplay,confusion_matrix,f1_score,precision_score, recall_score
+from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -75,20 +77,20 @@ def select_model(model_name):
     elif model_name == "DeepConvLSTM3":
         print("Now it DeepConvLSTM3 training!!!!")
         return deep_conv_lstm_model_3()
-    elif model_name == "simple_CNN":
-        print("Now it simple_CNN training!!!!")
-        return simple_CNN()
+    elif model_name == "DZ_CNN":
+        print("Now it DZ_CNN training!!!!")
+        return DZ_CNN1()
     else:
         raise ValueError("Unknown model name")
 
-def train_model(model_name,X_train,y_train,X_test,y_test):
+def train_model(model_name,X_train,y_train,X_test,y_test,batch_size,epochs):
 
     model = select_model(model_name)
     print("aaaaa")
     print(X_train.shape)
     print(y_train.shape)
-    # y_train = y_train[:, 0]  # Assuming the label is the same for all time steps in a sample
-    history = model.fit(X_train, y_train, batch_size = 32,epochs=10, validation_split=0.2)
+	# y_train = y_train[:, 0]  # Assuming the label is the same for all time steps in a sample
+    history = model.fit(X_train, y_train, batch_size = batch_size ,epochs=epochs, validation_split=0.2)
     # model = load_model('models/activity_recognition_model.h5') # might use later for showing the running code
     
     y_prediction = model.predict(X_test)
@@ -104,9 +106,10 @@ def train_model(model_name,X_train,y_train,X_test,y_test):
     precision = precision_score(y_test, y_prediction, average='weighted')
     recall = recall_score(y_test, y_prediction, average='weighted')
     f1 = f1_score(y_test, y_prediction, average='weighted')
-
+	
     evaluation_results = model.evaluate(X_test, y_test)
     loss, accuracy = evaluation_results
+	#model.save('DZ_CNN.h5')
     return loss,accuracy,precision,recall,f1
 
 def plot(history,cm,labels,model_names):
